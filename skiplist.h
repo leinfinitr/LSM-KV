@@ -36,12 +36,15 @@ public:
     int level;  // 跳表层数
     int count;  // 键值对数量
     uint64_t min_key, max_key;  // 键最大值和最小值
+    uint64_t size;  // 跳表转化为 SSTable 后的大小
     SkiplistNode* head;
 
     Skiplist(){
         level = 1;
         count = 0;
-        min_key = max_key = 0;
+        max_key = 0;
+        min_key = UINT64_MAX;
+        size = 10272;
         head = new SkiplistNode();
     }
 

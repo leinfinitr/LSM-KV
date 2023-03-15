@@ -55,12 +55,22 @@ void Skiplist::insert(uint64_t insert_key, const std::string& insert_value)
     SkiplistNode* pos;  // 保存查找算法的最终查找节点
     // 若查找成功，则进行覆盖操作
     if(search(head, pos, insert_key)) {
+        // 更新 size
+        size += insert_value.size() - pos->value.second.size();
+        // 更改所有层的数值
         while (pos) {
             pos->value.second = insert_value;
             pos = pos->below;
         }
     }
     else{
+        // 键值对数量 +1, 并调整 max_key 和 min_key
+        count ++;
+        if(insert_key < min_key) min_key = insert_key;
+        if(insert_key > max_key) max_key = insert_key;
+        // 更新 size
+        size += 12 + insert_value.size();
+
         // 首先在最底层插入节点
         // 经过查找算法，pos 指向被插入位置的前一个结点
         SkiplistNode* tmp = pos->next;  // 保存插入位置后一个节点的地址
@@ -150,6 +160,9 @@ void Skiplist::reset()
 
     // 让 head 指向新的初始节点
     level = 1;
+    count = 0;
+    max_key = 0;
+    min_key = UINT64_MAX;
     head = new SkiplistNode();
 }
 

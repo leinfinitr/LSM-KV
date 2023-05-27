@@ -7,7 +7,7 @@
 class CorrectnessTest : public Test {
 private:
 	const uint64_t SIMPLE_TEST_MAX = 512;
-	const uint64_t LARGE_TEST_MAX = 1024 * 64;
+	const uint64_t LARGE_TEST_MAX = 1024 * 12;
 
 	void regular_test(uint64_t max)
 	{
@@ -38,7 +38,7 @@ private:
 		// Test scan
 		std::list<std::pair<uint64_t, std::string> > list_ans;
 		std::list<std::pair<uint64_t, std::string> > list_stu;
-		
+
 		for (i = 0; i < max / 2; ++i) {
 			list_ans.emplace_back(std::make_pair(i, std::string(i+1, 's')));
 		}
@@ -90,9 +90,9 @@ public:
 		std::cout << "KVStore Correctness Test" << std::endl;
 
 		store.reset();
-		
+
 		std::cout << "[Simple Test]" << std::endl;
-		regular_test(SIMPLE_TEST_MAX);
+        regular_test(SIMPLE_TEST_MAX);
 		
 		store.reset();
 

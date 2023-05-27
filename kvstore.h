@@ -7,25 +7,36 @@
 #include <string>
 
 class KVStore : public KVStoreAPI {
-	// You can add your implementation here
-private:
-
 public:
     Skiplist memTable;
     SSTable disk;
-    int level = 0;  // 用于指示下一次创建 SSTable 时应该在第几层创建
-    int file_num = 0;   // 用于指示下一次创建的 SSTable 是该层的第几个文件
-    bool tmp_changer = true;
+    std::string dir;
+    uint64_t file_num_level = 2; // 第 level 最大文件数量为 file_num_per_level * (2 ^ level)
 
-	KVStore(const std::string &dir);
-	~KVStore();
+    KVStore(const std::string &dir);
 
-	void put(uint64_t key, const std::string &s) override;
-	std::string get(uint64_t key) override;
-	bool del(uint64_t key) override;
-	void reset() override;
-	void scan(uint64_t key1, uint64_t key2, std::list<std::pair<uint64_t, std::string> > &list) override;
+    ~KVStore();
 
-    void getFilePathName(std::string &path, std::string &name) const;
-    void updateContent();
+    void put(uint64_t key, const std::string &s) override;
+
+    std::string get(uint64_t key) override;
+
+    bool del(uint64_t key) override;
+
+    void reset() override;
+
+    void scan(uint64_t key1, uint64_t key2, std::list<std::pair<uint64_t, std::string> > &list) override;
+
+    void compaction(int level);
+
+    void getCacheInfo(std::vector<uint64_t> &res, int level);
+
+    void mergeSort(std::vector<std::vector<std::pair<uint64_t, std::string>>> &kvs,
+                   std::vector<std::pair<uint64_t, std::string>> &ret);
+
+    void writeToDisk(std::vector<std::pair<uint64_t, std::string>> &kvs, int level, std::vector<uint64_t> &time_stamps);
+
+    void analysis(uint64_t key);
+
+    void printFileLevel();
 };

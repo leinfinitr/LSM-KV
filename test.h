@@ -25,10 +25,12 @@ protected:
 			++nr_passed_tests;
 			return;
 		}
-		if (verbose) {
+		if (true) {
 			std::cerr << "TEST Error @" << file << ":" << line;
 			std::cerr << ", expected " << exp;
 			std::cerr << ", got " << got << std::endl;
+            // 抛出异常
+            throw std::exception();
 		}
 	}
 

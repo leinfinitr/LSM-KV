@@ -34,7 +34,7 @@ inline uint64_t rotl64 ( uint64_t x, int8_t r )
 
 FORCE_INLINE uint64_t getblock64 ( const uint64_t * p, int i )
 {
-  return p[i];
+    return p[i];
 }
 
 FORCE_INLINE uint64_t fmix64 ( uint64_t k )
